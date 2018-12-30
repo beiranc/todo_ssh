@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+
+	<class name="Model.User" table="user">
+		<id name="userId" column="userId" type="java.lang.String">
+			<generator class="assigned"/>
+		</id>
+		<property name="userName" column="userName" type="java.lang.String"></property>
+		<property name="password" column="password" type="java.lang.String"></property>
+	</class>
+	
+</hibernate-mapping>

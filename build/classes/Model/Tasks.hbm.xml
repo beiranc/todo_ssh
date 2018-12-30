@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+
+	<class name="Model.Tasks" table="tasks">
+		<id name="tasksId" column="tasksId" type="java.lang.String">
+			<generator class="assigned"/>
+		</id>
+		<property name="title" column="title" type="java.lang.String"></property>
+		<property name="contents" column="contents" type="java.lang.String"></property>
+		<property name="isFinished" column="isFinished" type="java.lang.Boolean"></property>
+		<property name="priority" column="priority" type="java.lang.Integer"></property>
+		<property name="createTime" column="createTime" type="java.lang.String"></property>
+		<property name="deadline" column="deadline" type="java.lang.String"></property>
+		<property name="is_del" column="is_del" type="java.lang.Integer"></property>
+		<property name="todolistId" column="todolistId" type="java.lang.String"></property>
+	</class>
+	
+</hibernate-mapping>

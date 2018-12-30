@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	 xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                     http://www.springframework.org/schema/beans/spring-beans.xsd 
+                     http://www.springframework.org/schema/tx 
+                     http://www.springframework.org/schema/tx/spring-tx.xsd 
+                     http://www.springframework.org/schema/mvc 
+                     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                     http://www.springframework.org/schema/aop 
+                     http://www.springframework.org/schema/aop/spring-aop.xsd
+                     http://www.springframework.org/schema/context 
+                       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    <!-- DBCP连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/todolistsystem?characterEncoding=utf-8"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+	
+	<!-- 注入连接池 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- 是否显示打印sql语句 -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 是否格式化显示sql语句 -->
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- 是否自动commit -->
+				<prop key="hibernate.connection.autocommit">true</prop>
+			</props>
+		</property>
+		
+		<property name="mappingResources">
+			<list>
+				<value>Model/User.hbm.xml</value>
+				<value>Model/Tasks.hbm.xml</value>
+				<value>Model/Todolist.hbm.xml</value>
+			</list>
+		</property>
+		
+		<!-- 实体类映射 -->
+		<!-- <property name="annotatedClasses">
+			<list>
+				<value>Model.User</value>
+				<value>Model.Tasks</value>
+				<value>Model.Todolist</value>
+			</list>
+		</property> -->
+	</bean>
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="trManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    	<property name="sessionFactory">
+    		<ref bean="sessionFactory"/>
+    	</property>
+    </bean>
+    <!-- 注解需要在业务层的类的上面或者方法的上面添加一个注解@Transcational -->
+    <tx:annotation-driven transaction-manager="trManager"/>
+    
+    <!-- 添加声明式事务处理（注解的方式） end-->
+    
+    <!-- 创建Action -->
+    <bean id="AddTasksAction" class="Controller.AddTasksAction" scope="prototype">
+    	<property name="tasksService" ref="TasksService"></property>
+    </bean>
+    
+    <bean id="AddTodolistAction" class="Controller.AddTodolistAction" scope="prototype">
+    	<property name="todolistService" ref="TodolistService"></property>
+    </bean>
+    
+    <bean id="ListAllTasksAction" class="Controller.ListAllTasksAction" scope="prototype">
+    	<property name="tasksService" ref="TasksService"></property>
+    </bean>
+    
+    <bean id="ListAllTodoAction" class="Controller.ListAllTodoAction" scope="prototype">
+    	<property name="todolistService" ref="TodolistService"></property>
+    </bean>
+    
+    <bean id="LoginAction" class="Controller.LoginAction" scope="prototype">
+    	<property name="userService" ref="UserService"></property>
+    </bean>
+    
+    <bean id="RegisterAction" class="Controller.RegisterAction" scope="prototype">
+    	<property name="userService" ref="UserService"></property>
+    </bean>
+    
+    <bean id="SearchTasksAction" class="Controller.SearchTasksAction" scope="prototype">
+    	<property name="tasksService" ref="TasksService"></property>
+    </bean>
+    
+    <bean id="UpdateTodolistAction" class="Controller.UpdateTodolistAction" scope="prototype">
+    	<property name="todolistService" ref="TodolistService"></property>
+    </bean>
+    
+    <!-- 创建Service -->
+    <bean id="TasksService" class="Model.TasksService">
+		<property name="tasksDao">
+			<ref bean="TasksDao" />
+		</property>
+	</bean>
+	
+	<bean id="TodolistService" class="Model.TodolistService">
+		<property name="todolistDao">
+			<ref bean="TodolistDao" />
+		</property>
+	</bean>
+	
+	<bean id="UserService" class="Model.UserService">
+		<property name="userDao">
+			<ref bean="UserDao" />
+		</property>
+	</bean>
+    
+    <!-- 创建Dao -->
+    
+    <bean id="UserDao" class="Dao.UserDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="TodolistDao" class="Dao.TodolistDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="TasksDao" class="Dao.TasksDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+</beans>
