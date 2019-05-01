@@ -68,6 +68,20 @@
 					</div>
 				</div>
     		</div>
+    		
+    		<!-- <div class="jumbotron well text-center">
+   	    		<div class="container-fluid" id="XS">
+   					<div class="row-fluid">
+   						<div class="span12">
+       						<script type="text/javascript" src="http://yijuzhan.com/api/word.php?m=js"></script>
+       						<script>
+       							document.write("<div style=\"text-align:center\">"+str[0]+"</div><div style=\"text-align:right\">——"+str[1]+"</div>");
+       						</script>
+   						</div>
+   					</div>
+   				</div>
+        	</div> -->
+    		
         	<div class="row-fluid">
         		<div class="span12">
         			<table class="table table-hover table-bordered text-center">

@@ -10,28 +10,58 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- 导入自定义CSS -->
 		<link href="./css/Login.css" rel='stylesheet' type='text/css' />
-		<!-- jquery for Bootstrap 导入-->
-        <script src="./bootstrap/js/jquery/2.0.0/jquery.min.js"></script>
-
-        <!-- bootstrap 导入 -->
-        <link rel="stylesheet" href="./bootstrap/css/bootstrap/3.3.6/bootstrap.min.css">
-        <script src="./bootstrap/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+		<!-- 导入Google图标和字体 -->
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
+	    <!-- 导入Materialize的CSS库 -->
+	    <link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css" media="screen,projection">
 	</head>
 	<body>
-		<div class="container">
-            <form class="form-signin" action="login.action" method="post">
-                <h2 class="form-signin-heading" style="text-align:center;">User Sign in</h2>
-                <label for="inputUserName" class="sr-only">UserName</label>
-                <input type="text" id="inputUserName" name="userName" class="form-control" placeholder="UserName" required autofocus><br/>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required><br/>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-danger btn-block" type="submit">登录</button>
-            </form>
+        
+        <div class="container">
+			<div class="row">
+				<div class="card-panel grey darken-1 center hoverable white-text">
+					<form class="form-signin" action="login.action" method="post" autocomplete="off">
+		                <h2 class="form-signup-heading" style="text-align:center;">User Sign in</h2>
+		                
+		                <div class="row">
+		                	<div class="input-field col s12">
+			                	<i class="material-icons prefix">account_circle</i>
+			                	<input type="text" id="inputUserName" name="userName" class="validate white-text" required autofocus>
+			                	<label for="inputUserName">UserName</label>
+			                	<span class="helper-text" data-error="不能为空" data-success="合法"></span>
+			                </div>
+		                </div>
+		                
+		                <div class="row">
+		                	<div class="input-field col s12">
+			                	<i class="material-icons prefix">lock</i>
+			                	<input type="password" id="inputPassword" name="password" class="validate white-text" required><br/>
+			                	<label for="inputPassword">Password</label>
+			                	<span class="helper-text" data-error="不能为空" data-success="合法"></span>
+			                </div>
+		                </div>
+		                
+		                <div class="row">
+		                	<div class="input-field col s12">
+		                		<div class="checkbox">
+				                    <label>
+				                        <input type="checkbox" value="remember-me">
+				                        <span>Remember me</span>
+				                    </label>
+				                </div>
+		                	</div>
+		                </div>
+		                
+		                <button class="btn waves-effect waves-light center" type="submit">登录
+		                	<i class="material-icons right">send</i>
+		                </button>
+		            </form>
+				</div>
+			</div>
         </div>
+        
+        <!-- 导入Materialize的JS库 -->
+    	<script type="text/javascript" src="./materialize/js/materialize.min.js" charset="utf-8"></script>
 	</body>
 </html>

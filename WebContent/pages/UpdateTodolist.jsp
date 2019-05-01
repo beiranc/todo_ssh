@@ -14,12 +14,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- 导入自定义CSS -->
 	<link href="./css/Update.css" rel='stylesheet' type='text/css' />
-	<!-- jquery for Bootstrap 导入-->
-    <script src="./bootstrap/js/jquery/2.0.0/jquery.min.js"></script>
+	<!-- 导入Google图标和字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <!-- bootstrap 导入 -->
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap/3.3.6/bootstrap.min.css">
-    <script src="./bootstrap/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <!-- 导入Materialize的CSS库 -->
+    <link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css" media="screen,projection">
 </head>
 <body>
 	<div class="container">
@@ -32,14 +31,34 @@
 			Todolist todolist = new Todolist();
 			todolist = todolistService.getTodolistById(todolistId);
 		%>
-	    <form class="form-signin" action="updateTodolist.action?todolistId=<%= todolistId %>" method="post">
-	        <h2 class="form-signin-heading" style="text-align:center;">修改此清单</h2>
-	        <label for="inputTitle" class="sr-only">标题</label>
-	        <input type="text" id="inputTitle" name="title" class="form-control" value="<%= todolist.getTitle() %>" required autofocus><br/>
-	        <label for="inputComments" class="sr-only">备注</label>
-	        <input type="text" id="inputComments" name="comments" class="form-control" value="<%= todolist.getComments() %>" required><br/>
-	        <button class="btn btn-lg btn-success btn-block" type="submit">确认修改</button>
-	    </form>
+		<div class="row">
+			<div class="card-panel grey darken-1 center hoverable white-text">
+				<form class="form-signin" action="updateTodolist.action?todolistId=<%= todolistId %>" method="post" autocomplete="off">
+			        <h4 class="form-signin-heading" style="text-align:center;">修改此清单</h4>
+			        
+			        <div class="row">
+	                	<div class="input-field col s12">
+		                	<input type="text" id="inputTitle" value="<%= todolist.getTitle() %>" name="title" class="validate white-text" required autofocus>
+		                	<label for="inputTitle">标题</label>
+		                	<span class="helper-text" data-error="不能为空" data-success="合法"></span>
+		                </div>
+	                </div>
+			        
+			        <div class="row">
+	                	<div class="input-field col s12">
+		                	<input type="text" id="inputComments" value="<%= todolist.getComments() %>" name="comments" class="validate white-text" required><br/>
+		                	<label for="inputComments">备注</label>
+		                	<span class="helper-text" data-error="不能为空" data-success="合法"></span>
+		                </div>
+	                </div>
+			        
+			        <button class="btn waves-effect waves-light center" type="submit">确认修改</button>
+			    </form>
+			</div>
+		</div>
 	</div>
+	
+	<!-- 导入Materialize的JS库 -->
+    <script type="text/javascript" src="./materialize/js/materialize.min.js" charset="utf-8"></script>
 </body>
 </html>
