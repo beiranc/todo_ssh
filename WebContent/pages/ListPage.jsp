@@ -95,26 +95,7 @@
     			String userId = (String) httpSession.getAttribute("userId");
     			user = userService.getUserById(userId);
     		%>
-    		
-    		<!-- 搜索框 -->
-    		<!-- <div class="card-panel well center deep-purple lighten-5 hoverable">
-   	    		<div class="row">
-   					<div class="col s12">
-                        <form class="form" action="searchTasks.action" autocomplete="off" method="POST">
-                        	<div class="card-panel">
-                        		
-                        		<div class="input-field col s12">
-                        			<input  id="keywords" class="" type="text" name="keyWord" required/>
-                        			<label for="keywords">输入关键字</label>
-			                	</div>
-                        		
-                        		<button style="width: 100%" type="submit" class="btn waves-effect waves-light"><span class="glyphicon glyphicon-search"></span>&nbsp;查找</button>
-                        	</div>
-                        </form>
-					</div>
-   				</div>
-        	</div> -->
-        	
+
         	<!-- 清单主体 -->
         	<div class="card-panel well center deep-purple lighten-5 hoverable">
         		<div class="row">
@@ -166,7 +147,7 @@
 					        </a>
 					        <ul>
 					            <li>
-					            	<a class="btn-floating red waves-effect waves-light tooltipped" data-position="left" data-tooltip="搜索一个子任务">
+					            	<a href='/todo_ssh/pages/SearchPage.jsp' class="btn-floating red waves-effect waves-light tooltipped" data-position="left" data-tooltip="搜索一个子任务">
 					            		<i class="material-icons">search</i>
 					            	</a>
 					            </li>

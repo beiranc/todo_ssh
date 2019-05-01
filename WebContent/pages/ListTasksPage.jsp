@@ -86,12 +86,6 @@
            </div>
         </div>
     </nav>
-
-	<!-- list.get(i).getTasksId -->
-	<%-- <td><a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=1'><button class="btn btn-large btn-primary" type="button">完成</button></a></td>
-	<td><a href='/todo_ssh/pages/UpdateTasks.jsp?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-info" type="button">修改</button></a></td>
-	<td><a href='listTasksPage_delete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-danger" type="button">删除</button></a></td> --%>
-
       
       <!-- ListTasksPage界面  -->
       <div class="card-panel well center deep-purple lighten-5 hoverable">
@@ -110,6 +104,13 @@
 		                				//获取tasks
 		                				TasksService tasksService = (TasksService) context.getBean("TasksService");
 		                				list = tasksService.getAllTasksById(todolistId);
+		                				if(list.size() == 0) {
+		                			%>
+		                			<li class="collection-item avatar">
+		                				<h3 class="title center">暂无任务，快去添加吧！</h3>
+		                			</li>
+		                			<%
+		                				}
 		                				for(int i=0; i < list.size(); i++) {
 		                			%>
                                     <li class="collection-item avatar">
