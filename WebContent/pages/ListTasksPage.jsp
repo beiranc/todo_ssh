@@ -18,159 +18,205 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- 导入自定义CSS -->
 	<link href="./css/Login.css" rel='stylesheet' type='text/css' />
-	<!-- jquery for Bootstrap 导入-->
-    <script src="./bootstrap/js/jquery/2.0.0/jquery.min.js"></script>
+	<!-- 导入Google图标和字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <!-- bootstrap 导入 -->
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap/3.3.6/bootstrap.min.css">
-    <script src="./bootstrap/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <!-- 导入Materialize的CSS库 -->
+    <link type="text/css" rel="stylesheet" href="./materialize/css/materialize.min.css" media="screen,projection">
     <style>
     	a, a:hover {
     		text-decoration: none;
     	}
     </style>
+    <script>
+    	var accordion = true;
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, accordion);
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                direction: 'top',
+                hoverEnabled: false
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.tooltipped');
+            var instances = M.Tooltip.init(elems, {
+            	exitDelay: 0,
+            	enterDelay: 200
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, {
+                edge: 'left',
+                draggable: true,
+                inDuration: 250,
+                outDuration: 200
+            });
+        });
+    </script>
 </head>
 <body>
 	<%@ page import="java.util.*" %>
 	<%@ page import="Model.Todolist"%>
-	<div class="container-fluid">
-            <%
-            	WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-                TodolistService todolistService = (TodolistService) context.getBean("TodolistService");
-                String todolistId = (String) request.getParameter("todolistId");
-                Todolist todolist = todolistService.getTodolistById(todolistId);
-            %>
-    		<div class="jumbotron well text-center">
-	    		<div class="container-fluid" id="XS">
-					<div class="row-fluid">
-						<div class="span12">
-                            <table class="table">
-                				<tbody>
-                					<tr> <!-- btn-lg -->
-                                        <td style="border: 0px;"><button type="button" class="btn btn-warning btn-block active disabled visible-xs"><%= todolist.getTitle() %></button></td>
-                                        <td style="border: 0px;"><button type="button" class="btn btn-warning  active disabled visible-sm"><%= todolist.getTitle() %></button></td>
-                                        <td style="border: 0px;"><button type="button" class="btn btn-warning btn-block active disabled visible-md"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;当前清单: <%= todolist.getTitle() %></button></td>
-                                        <td style="border: 0px;"><button type="button" class="btn btn-warning btn-block active disabled visible-lg"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;当前清单: <%= todolist.getTitle() %></button></td>
+	<%@page import="Model.UserService"%>
+	<%@page import="Model.User"%>
+    <%
+    	WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+        TodolistService todolistService = (TodolistService) context.getBean("TodolistService");
+        String todolistId = (String) request.getParameter("todolistId");
+        Todolist todolist = todolistService.getTodolistById(todolistId);
+        UserService userService = (UserService) context.getBean("UserService");
+        HttpSession httpSession = request.getSession();
+		User user = new User();
+		String userId = (String) httpSession.getAttribute("userId");
+		user = userService.getUserById(userId);
+    %>
+    <nav>
+    	<div class="nav-wrapper">
+           <div class="col s12">
+               <a href="javascript:void(0);" style="margin: 10px;" class="breadcrumb"><%= user.getUserName() %></a>
+               <a href="javascript:void(0);" class="breadcrumb"><%= todolist.getTitle() %></a>
+           </div>
+        </div>
+    </nav>
 
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/AddTasksPage.jsp?todolistId=<%= todolistId %>'><button type="button" class="btn btn-info btn-block active visible-xs">添加</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/AddTasksPage.jsp?todolistId=<%= todolistId %>'><button type="button" class="btn btn-info btn-block active visible-sm">添加</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/AddTasksPage.jsp?todolistId=<%= todolistId %>'><button type="button" class="btn btn-info btn-block active visible-md"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加一个任务</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/AddTasksPage.jsp?todolistId=<%= todolistId %>'><button type="button" class="btn btn-info btn-block active visible-lg"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加一个任务</button></a></td>
+	<!-- list.get(i).getTasksId -->
+	<%-- <td><a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=1'><button class="btn btn-large btn-primary" type="button">完成</button></a></td>
+	<td><a href='/todo_ssh/pages/UpdateTasks.jsp?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-info" type="button">修改</button></a></td>
+	<td><a href='listTasksPage_delete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-danger" type="button">删除</button></a></td> --%>
 
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/ListPage.jsp'><button type="button" class="btn btn-danger btn-block active visible-xs">返回</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/ListPage.jsp'><button type="button" class="btn btn-danger btn-block active visible-sm">返回</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/ListPage.jsp'><button type="button" class="btn btn-danger btn-block active visible-md"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回主列表</button></a></td>
-                                        <td style="border: 0px;"><a href='/todo_ssh/pages/ListPage.jsp'><button type="button" class="btn btn-danger btn-block active visible-lg"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;返回主列表</button></a></td>
-                					</tr>
-                				</tbody>
-                			</table>
-						</div>
-					</div>
-				</div>
-    		</div>
-    		
-    		<!-- <div class="jumbotron well text-center">
-   	    		<div class="container-fluid" id="XS">
-   					<div class="row-fluid">
-   						<div class="span12">
-       						<script type="text/javascript" src="http://yijuzhan.com/api/word.php?m=js"></script>
-       						<script>
-       							document.write("<div style=\"text-align:center\">"+str[0]+"</div><div style=\"text-align:right\">——"+str[1]+"</div>");
-       						</script>
-   						</div>
-   					</div>
-   				</div>
-        	</div> -->
-    		
-        	<div class="row-fluid">
-        		<div class="span12">
-        			<table class="table table-hover table-bordered text-center">
-        				<thead>
-                            <caption class="text-center"><h1><%= todolist.getTitle() %>的未完成事项</h1></caption>
-        					<tr>
-        						<th class="text-center">标题</th>
-        						<th class="text-center">内容</th>
-        						<th class="text-center">优先级</th>
-        						<th class="text-center">创建时间</th>
-                                <th class="text-center">最后期限</th>
-                                <th class="text-center">设为完成</th>
-                                <th class="text-center">修改</th>
-                                <th class="text-center">删除</th>
-        					</tr>
-        				</thead>
-        				<tbody>
-                            <%
-                				List<Tasks> list = new ArrayList();
-                				//获取tasks
-                				TasksService tasksService = (TasksService) context.getBean("TasksService");
-                				list = tasksService.getAllTasksById(todolistId);
-                				for(int i=0; i < list.size(); i++){
-                			%>
-        					<tr class="info">
-                                <%
-                                	if(!list.get(i).getIsFinished()) {
-                                %>
-                                <td><%= list.get(i).getTitle() %></td>
-            					<td><%= list.get(i).getContents() %></td>
-            					<td><%= list.get(i).getPriority() %></td>
-            					<td><%= list.get(i).getCreateTime() %></td>
-            					<td><%= list.get(i).getDeadline() %></td>
-            					<!-- list.get(i).getTasksId -->
-            					<td><a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=1'><button class="btn btn-large btn-primary" type="button">完成</button></a></td>
-            					<td><a href='/todo_ssh/pages/UpdateTasks.jsp?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-info" type="button">修改</button></a></td>
-            					<td><a href='listTasksPage_delete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-danger" type="button">删除</button></a></td>
-            					<%
-                                	}
-                                %>
-        					</tr>
-                            <%
-                				}
-                			%>
-        				</tbody>
-        			</table>
-        			
-        			<table class="table table-hover table-bordered text-center">
-        				<thead>
-                            <caption class="text-center"><h1><%= todolist.getTitle() %>的已完成事项</h1></caption>
-        					<tr>
-        						<th class="text-center">标题</th>
-        						<th class="text-center">内容</th>
-        						<th class="text-center">优先级</th>
-        						<th class="text-center">创建时间</th>
-                                <th class="text-center">最后期限</th>
-                                <th class="text-center">切换为未完成</th>
-                                <th class="text-center">修改</th>
-                                <th class="text-center">删除</th>
-        					</tr>
-        				</thead>
-        				<tbody>
-                            <%
-                				for(int i=0; i < list.size(); i++){
-                			%>
-        					<tr class="info" style="color: grey; text-decoration: line-through; font-style: italic; font-weight: bold;">
-        						<%
-        							if(list.get(i).getIsFinished()) {
-        						%>
-                                <td><%= list.get(i).getTitle() %></td>
-            					<td><%= list.get(i).getContents() %></td>
-            					<td><%= list.get(i).getPriority() %></td>
-            					<td><%= list.get(i).getCreateTime() %></td>
-            					<td><%= list.get(i).getDeadline() %></td>
-            					<!-- list.get(i).getTasksId -->
-            					<td><a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=0'><button class="btn btn-large btn-success" type="button">切换</button></a></td>
-            					<td><a href='/todo_ssh/pages/UpdateTasks.jsp?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-info" type="button">修改</button></a></td>
-            					<td><a href='listTasksPage_delete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-large btn-danger" type="button">删除</button></a></td>
-            					<%
-        							}
-        						%>
-        					</tr>
-                            <%
-                				}
-                			%>
-        				</tbody>
-        			</table>
-        		</div>
-        	</div>
+      
+      <!-- ListTasksPage界面  -->
+      <div class="card-panel well center deep-purple lighten-5 hoverable">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content">
+                                <span class="card-title white-text">
+                                    <h5><%= todolist.getTitle() %></h5>
+                                </span>
+                                <ul class="collection">
+                                    <%
+		                				List<Tasks> list = new ArrayList();
+		                				//获取tasks
+		                				TasksService tasksService = (TasksService) context.getBean("TasksService");
+		                				list = tasksService.getAllTasksById(todolistId);
+		                				for(int i=0; i < list.size(); i++) {
+		                			%>
+                                    <li class="collection-item avatar">
+                                        <i class="material-icons circle yellow darken-4">assistant</i>
+                                        <span class="title left">
+                                            <a class="left tooltipped" data-position="bottom" data-tooltip="<%= list.get(i).getContents() %>" href="javascript:void(0);"><%= (i + 1) + ". " + list.get(i).getTitle() %></a>
+                                            <%
+                                            	switch(list.get(i).getPriority()) {
+                                            		case 1:
+                                            %>
+                                            <span class="new badge left teal darken-3" data-badge-caption="一般"></span>
+                                            <%
+                                            			break;
+                                            		case 2:
+                                            %>
+                                            <span class="new badge left orange lighten-1" data-badge-caption="重要"></span>
+                                            <%
+                                            			break;
+                                            		case 3:
+                                            %>
+                                            <span class="new badge left red accent-4" data-badge-caption="紧急"></span>
+                                            <%
+                                            			break;
+                                            	}
+                                            %>
+                                            <%
+			                                	if(!list.get(i).getIsFinished()) {
+			                                %>
+			                                <span class="new badge left red" data-badge-caption="未完成"></span>
+			                                <%
+			                                	} else {
+			                                %>
+			                                <span class="new badge left lime darken-1" data-badge-caption="已完成"></span>
+			                                <%
+			                                	}
+			                                %>
+                                        </span>
+                                        <span class="new badge left cyan darken-4" data-badge-caption="<%= list.get(i).getDeadline() %>"></span>
+
+                                        <!-- 删除类高危操作可以弹出一个遮罩框进行确认 -->
+                                       	<div class="secondary-content">
+                                       		<%
+                                       			if(!list.get(i).getIsFinished()) {
+                                       		%>
+                                       		<a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=1'><button class="btn btn-floating waves-effect waves-light indigo lighten-2" type="button"><i class="material-icons">favorite_border</i></button></a>
+                                       		<%
+                                       			} else {
+                                       		%>
+                                       		<a href='listTasksPage_changeComplete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>&complete=0'><button class="btn btn-floating waves-effect waves-light indigo lighten-2" type="button"><i class="material-icons">favorite</i></button></a>
+                                       		<%
+		                						}
+                                       		%>
+                                            <a href='/todo_ssh/pages/UpdateTasks.jsp?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-floating waves-effect waves-light green" type="button"><i class="material-icons">edit</i></button></a>
+                                            <a href='listTasksPage_delete.action?tasksId=<%= list.get(i).getTasksId() %>&todolistId=<%= todolistId %>'><button class="btn btn-floating waves-effect waves-light red" type="button"><i class="material-icons">close</i></button></a>
+                                       	</div>
+                                    </li>
+                                    <%
+		                				}
+		                			%>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 悬浮按钮 -->
+                <div class="fixed-action-btn">
+                    <a class="btn-floating btn-large red waves-effect waves-light">
+                        <i class="large material-icons">menu</i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href='/todo_ssh/pages/AddTasksPage.jsp?todolistId=<%= todolistId %>' class="btn-floating green waves-effect waves-light tooltipped" data-position="left" data-tooltip="添加一个任务">
+                                <i class="material-icons">publish</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="slide-out" class="btn-floating blue waves-effect waves-light tooltipped sidenav-trigger" data-position="left" data-tooltip="详细信息">
+                                <i class="material-icons">attach_file</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 工具栏 -->
+                <ul id="slide-out" class="sidenav">
+                    <li>
+                        <div class="user-view">
+                            <div class="background">
+                                <img src="images/office.jpg">
+                            </div>
+                            <div class="name">
+                                <a href="javascript:void(0);"><img class="circle" src="images/head.jpg"></a>
+                                <a href="javascript:void(0);">
+                                    <h5 class="white-text"><%= user.getUserName() %></h5>
+                                </a><br>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href='/todo_ssh/pages/ListPage.jsp' class="waves-effect">返回主页面</a></li>
+                </ul>
+
+            </div>
+        </div>
       </div>
+      
+      <!-- 导入Materialize的JS库 -->
+	  <script type="text/javascript" src="./materialize/js/materialize.min.js" charset="utf-8"></script>
 </body>
 </html>
